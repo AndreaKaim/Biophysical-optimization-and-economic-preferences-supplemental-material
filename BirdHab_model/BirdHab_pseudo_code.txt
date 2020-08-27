@@ -1,0 +1,27 @@
+BirdHab Model Pseudo Code
+
+- Calculation of the bird indicator for a Pareto-optimal land use map -
+
+1. # Data preparation
+   1.1  # Read input data
+ 	READ Optimization output map # (land use)
+	READ Status quo land use map
+	READ Patch ID map
+   1.2	CONVERT optimization land use into bird model format
+   1.3	LOAD and STACK predictors # (previously defined by ???)
+        # E.g. land use types (cropland, grassland, forest, etc.), linear elements, distance to water bodies/streets, soil and climate data
+   1.4	SELECT random raster points # (e.g. 40,000 for the Lossa River Basin) where species will be predicted
+2. # Species prediction
+   2.1	LOAD threshold data, Random Forest (RF) models # (10 per species: RF1-RF10) for each of the 9 species
+   2.2	PREDICT presence (1)/absence (0) for each RF model and for each species
+   2.3	FOR each species i
+        i.   # Sum up prediction vectors (containing 0-1 information for each raster point):
+             pred_sumRF <- pred_RF1 + pred_RF2 + pred_RF3 + pred_RF4 + pred_RF5 + pred_RF6 + pred_RF7 + pred_RF8 + pred_RF9 + pred_RF10
+        ii.  IF pred_sumRF [pred_sumRF < 5] <- 0
+        iii. IF pred_sumRF [pred_sumRF > 4] <- 1 # (species is present, if 1 for at least half of the RF models)
+        iv.  # Calculate mean value over all raster points and percentage from reference value (previously defined in ???):
+             occ_species_i <- (sum (pred_sumRF) / length (pred_sumRF)) / ref_species_i
+3. # Output
+   3.1 # Calculate mean percental change (bird indicator):
+       occ_mean <- mean(c(occ_species_1, …, occ_species_n))
+   3.2 # Calculate Willingness to pay
