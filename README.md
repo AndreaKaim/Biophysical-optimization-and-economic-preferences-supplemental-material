@@ -3,3 +3,5 @@ Code and exemplarly input data for the SWAT agronomy model (social value of agri
 as used in Kaim et al.: "Combining biophysical optimization with economic preference analysis for agricultural land use allocation".
 
 Input data works only for the case study area Lossa River Basin in Central Germany.
+
+DOI: https://doi.org/10.5281/zenodo.4003777 
